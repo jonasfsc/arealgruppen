@@ -158,6 +158,5 @@ st.pydeck_chart(
     pdk.Deck(
         layers=layers, initial_view_state=view_state, tooltip=tooltip, map_style="light"
     ),
-    height=1000,
     width="stretch",
 )
