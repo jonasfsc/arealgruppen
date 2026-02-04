@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import pydeck as pdk
 import geopandas as gpd
+import json
 
 crs_plot = "EPSG:4326"
 
@@ -61,6 +62,9 @@ show_skinnestasjoner_7_20 = st.sidebar.checkbox(
     "Skinnegående med høy frekvens stasjoner 7-20", value=False
 )
 
+map_data = json.loads(
+    gdf.to_json()
+)  # Dette gjør GeoDataFrame om til ren tekst-JSON og tilbake til en ordbok
 
 # 3. Definer lagene
 layers = []
@@ -79,19 +83,27 @@ if show_sentrum:
         )
     )
 
+
 if show_busstasjoner_7_20:
     # Lager en kopi med senterpunkter for demonstrasjon
     layers.append(
+        # pdk.Layer(
+        #     "ScatterplotLayer",
+        #     df_7_20.query("route_type=='Bus'"),
+        #     stroked=True,
+        #     get_line_width=3,
+        #     get_position=["location_longitude", "location_latitude"],
+        #     get_fill_color=[255, 150, 0, 40],
+        #     get_line_color=[255, 150, 0, 200],
+        #     get_radius="radius",
+        #     pickable=True,
+        # )
         pdk.Layer(
-            "ScatterplotLayer",
-            df_7_20.query("route_type=='Bus'"),
-            stroked=True,
-            get_line_width=3,
-            get_position=["location_longitude", "location_latitude"],
-            get_fill_color=[255, 150, 0, 40],
-            get_line_color=[255, 150, 0, 200],
-            get_radius="radius",
+            "GeoJsonLayer",
+            data=map_data,  # Bruk den rene JSON-ordboken her
+            get_fill_color="[200, 30, 0, 160]",  # Eksempel på farge
             pickable=True,
+            auto_highlight=True,
         )
     )
 
@@ -155,7 +167,6 @@ view_state = pdk.ViewState(latitude=60, longitude=10, zoom=6, pitch=0)
 
 st.pydeck_chart(
     pdk.Deck(
-        layers=layers, initial_view_state=view_state, tooltip=tooltip, 
-        map_style=None
+        layers=layers, initial_view_state=view_state, tooltip=tooltip, map_style=None
     )
 )
