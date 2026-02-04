@@ -1,4 +1,3 @@
 libgdal-dev
-libgeos-dev
 libproj-dev
-python3-rtree
+libgeos-dev
