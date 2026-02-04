@@ -9,7 +9,7 @@ crs_plot = "EPSG:4326"
 st.set_page_config(layout="wide")
 st.title("Stasjoner med hyppige avganger")
 st.subheader(
-    "Avganger fra samme holdeplass minst hvert 10/15 min i intervallet for buss/skinnegående"
+    "Avganger fra samme holdeplass minst hvert 10 / 15 min i intervallet for buss / skinnegående"
 )
 
 
@@ -157,6 +157,5 @@ view_state = pdk.ViewState(latitude=60, longitude=10, zoom=6, pitch=0)
 st.pydeck_chart(
     pdk.Deck(
         layers=layers, initial_view_state=view_state, tooltip=tooltip, map_style="light"
-    ),
-    width="stretch",
+    )
 )
