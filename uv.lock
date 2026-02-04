@@ -65,6 +65,7 @@ dependencies = [
     { name = "polars" },
     { name = "pyarrow" },
     { name = "pydeck" },
+    { name = "pyogrio" },
     { name = "shapely" },
     { name = "streamlit" },
 ]
@@ -87,6 +88,7 @@ requires-dist = [
     { name = "polars", specifier = ">=1.38.0" },
     { name = "pyarrow", specifier = ">=23.0.0" },
     { name = "pydeck", specifier = ">=0.9.1" },
+    { name = "pyogrio", specifier = ">=0.12.1" },
     { name = "shapely", specifier = ">=2.1.2" },
     { name = "streamlit", specifier = ">=1.19.0" },
 ]
