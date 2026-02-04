@@ -153,9 +153,9 @@ tooltip = {
 # 4. Sett opp kartet
 view_state = pdk.ViewState(latitude=60, longitude=10, zoom=6, pitch=0)
 
-# Merk: Vi lar map_style være udefinert (default) slik du har spesifisert tidligere
 st.pydeck_chart(
     pdk.Deck(
-        layers=layers, initial_view_state=view_state, tooltip=tooltip, map_style="light"
+        layers=layers, initial_view_state=view_state, tooltip=tooltip, 
+        map_style="https://basemaps.cartocdn.com/gl/light-all-gl-style/style.json"
     )
 )
