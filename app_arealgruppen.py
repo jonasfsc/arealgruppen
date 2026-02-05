@@ -4,6 +4,8 @@ import pydeck as pdk
 import geopandas as gpd
 import json
 import os
+import numpy as np
+
 
 crs_plot = "EPSG:4326"
 
@@ -17,21 +19,35 @@ current_dir = os.path.dirname(__file__)
 file_path = os.path.join(current_dir, "buffrede_sentrumssoner.gpkg")
 
 
+class NpEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.integer):
+            return int(obj)
+        if isinstance(obj, np.floating):
+            return float(obj)
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return super(NpEncoder, self).default(obj)
+
+
 @st.cache_data
 def load_data():
     # 1. Last Sentrumssoner
     gdf = gpd.read_file(file_path, engine="pyogrio")
-    gdf["name"] = gdf["område"] + " - " + gdf["kommunenavn"]
+    gdf["name"] = gdf["område"].astype(str) + " - " + gdf["kommunenavn"].astype(str)
     if gdf.crs != crs_plot:
         gdf = gdf.to_crs(crs_plot)
 
-    # "Vask" GeoJSON for å unngå TypeError på Cloud
-    clean_gdf = json.loads(gdf.to_json())
+    # "Vask" med NpEncoder for å unngå ndarray-feilen
+    # Vi bruker __geo_interface__ som er en renere vei til JSON for GeoPandas
+    clean_gdf = json.loads(json.dumps(gdf.__geo_interface__, cls=NpEncoder))
 
     # 2. Last Parquet-filer
-    df_7_20 = pd.read_parquet("stasjoner_med_frekvens_10_15_7_20.parquet")
-
     df_7_18_raw = pd.read_parquet("stasjoner_med_frekvens_10_15_7_18.parquet")
+
+    # Viktig: Fjern eventuelle rader med manglende koordinater som kan skape ndarray-trøbbel
+    df_7_18_raw = df_7_18_raw.dropna(subset=["location_longitude", "location_latitude"])
+
     df_7_18_gpd = gpd.GeoDataFrame(
         df_7_18_raw,
         geometry=gpd.points_from_xy(
@@ -39,8 +55,12 @@ def load_data():
         ),
         crs=crs_plot,
     )
-    # "Vask" denne også
-    clean_df_7_18 = json.loads(df_7_18_gpd.to_json())
+
+    # "Vask" denne også med NpEncoder
+    clean_df_7_18 = json.loads(json.dumps(df_7_18_gpd.__geo_interface__, cls=NpEncoder))
+
+    # Den siste trenger vi kanskje ikke vaske hvis den ikke skal i Pydeck direkte
+    df_7_20 = pd.read_parquet("stasjoner_med_frekvens_10_15_7_20.parquet")
 
     return clean_gdf, clean_df_7_18, df_7_20
 
