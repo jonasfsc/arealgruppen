@@ -3,6 +3,7 @@ import pandas as pd
 import pydeck as pdk
 import geopandas as gpd
 import json
+import os
 
 crs_plot = "EPSG:4326"
 
@@ -13,10 +14,14 @@ st.subheader(
     "Avganger fra samme holdeplass minst hvert 10 / 15 min i intervallet for buss / skinnegående"
 )
 
+current_dir = os.path.dirname(__file__)
+
+file_path = os.path.join(current_dir, "buffrede_sentrumssoner.gpkg")
+
 
 @st.cache_data
 def load_data():
-    gdf = gpd.read_file("buffrede_sentrumssoner.gpkg", engine="pyogrio")
+    gdf = gpd.read_file(file_path, engine="pyogrio")
     gdf["name"] = gdf["område"] + " - " + gdf["kommunenavn"]
     if gdf.crs != crs_plot:
         gdf = gdf.to_crs(crs_plot)
