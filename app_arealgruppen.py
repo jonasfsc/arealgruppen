@@ -14,44 +14,58 @@ st.subheader(
 )
 
 
-df_7_20 = pd.read_parquet(
-    "stasjoner_med_frekvens_10_15_7_20.parquet",
-    columns=[
-        "parent_station",
-        "name",
-        "route_type",
-        "location_longitude",
-        "location_latitude",
-        "radius",
-    ],
-)
+@st.cache_data
+def load_data():
+    gdf = gpd.read_file("buffrede_sentrumssoner.gpkg")
+    gdf["name"] = gdf["område"] + " - " + gdf["kommunenavn"]
+    if gdf.crs != crs_plot:
+        gdf = gdf.to_crs(crs_plot)
 
-df_7_18 = pd.read_parquet(
-    "stasjoner_med_frekvens_10_15_7_18.parquet",
-    columns=[
-        "parent_station",
-        "route_type",
-        "name",
-        "location_longitude",
-        "location_latitude",
-        "radius",
-    ],
-)
+    gdf2 = gpd.read_file("data/areal_fil2.geojson")
+    gdf2 = gdf2.to_crs(epsg=4326)
 
-gdf = gpd.read_file("buffrede_sentrumssoner.gpkg")
-gdf["name"] = gdf["område"] + " - " + gdf["kommunenavn"]
+    df_7_20 = pd.read_parquet(
+        "stasjoner_med_frekvens_10_15_7_20.parquet",
+        columns=[
+            "parent_station",
+            "name",
+            "route_type",
+            "location_longitude",
+            "location_latitude",
+            "radius",
+        ],
+    )
 
-if gdf.crs != crs_plot:
-    gdf = gdf.to_crs(crs_plot)
+    df_7_18 = pd.read_parquet(
+        "stasjoner_med_frekvens_10_15_7_18.parquet",
+        columns=[
+            "parent_station",
+            "route_type",
+            "name",
+            "location_longitude",
+            "location_latitude",
+            "radius",
+        ],
+    )
+    # "Vask" dataene for Pydeck med en gang (JSON-trikset)
+    # Dette gjør at selve kartvisningen går mye raskere senere
+    # clean_data1 = json.loads(gdf1.to_json())
+    # clean_data2 = json.loads(gdf2.to_json())
+
+    return gdf, df_7_18, df_7_20
+
+
+# Kall funksjonen i hovedkoden
+gdf, df_7_18, df_7_20 = load_data()
 
 
 # 2. Sidebar for valg av lag
 st.sidebar.header("Velg kartlag")
 show_sentrum = st.sidebar.checkbox("Sentrumssoner SSB + 1000 m gangvei", value=True)
 
-# show_busstasjoner_7_18 = st.sidebar.checkbox(
-#     "Busstasjoner med høy frekvens 7-18", value=False
-# )
+show_busstasjoner_7_18 = st.sidebar.checkbox(
+    "Busstasjoner med høy frekvens 7-18", value=False
+)
 # show_busstasjoner_7_20 = st.sidebar.checkbox(
 #     "Busstasjoner med høy frekvens 7-20", value=False
 # )
@@ -124,21 +138,21 @@ if show_sentrum:
 #     )
 
 
-# if show_busstasjoner_7_18:
-#     # Lager en kopi med senterpunkter for demonstrasjon
-#     layers.append(
-#         pdk.Layer(
-#             "ScatterplotLayer",
-#             df_7_18.query("route_type=='Bus'"),
-#             stroked=True,
-#             get_line_width=8,
-#             get_position=["location_longitude", "location_latitude"],
-#             get_fill_color=[255, 0, 0, 0],
-#             get_line_color=[255, 0, 0, 255],
-#             get_radius="radius",
-#             pickable=True,
-#         )
-#     )
+if show_busstasjoner_7_18:
+    # Lager en kopi med senterpunkter for demonstrasjon
+    layers.append(
+        pdk.Layer(
+            "ScatterplotLayer",
+            df_7_18.query("route_type=='Bus'"),
+            stroked=True,
+            get_line_width=8,
+            get_position=["location_longitude", "location_latitude"],
+            get_fill_color=[255, 0, 0, 0],
+            get_line_color=[255, 0, 0, 255],
+            get_radius="radius",
+            pickable=True,
+        )
+    )
 
 # if show_skinnestasjoner_7_18:
 #     # Lager en kopi med senterpunkter for demonstrasjon
