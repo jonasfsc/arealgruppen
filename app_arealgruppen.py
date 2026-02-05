@@ -107,7 +107,7 @@ if show_busstasjoner_7_18:
     )
 
 tooltip = {
-    "html": "<b>properties.Navn:</b> {name}",
+    "html": "<b>Navn:</b> {properties.name}",
     "style": {"backgroundColor": "steelblue", "color": "white"},
 }
 
