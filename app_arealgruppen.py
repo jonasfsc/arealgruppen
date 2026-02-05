@@ -45,8 +45,10 @@ def load_data():
     # clean_gdf = json.loads(json.dumps(gdf.__geo_interface__, cls=NpEncoder))
 
     # 2. Last Parquet-filer
-    df_7_18 = pd.read_parquet("stasjoner_med_frekvens_10_15_7_18.parquet")
-    df_7_18 = df_7_18.drop(columns=["color"])
+    df_7_18 = pd.read_parquet("stasjoner_med_frekvens_10_15_7_18.parquet").drop(
+        columns=["color"]
+    )
+
     gdf_7_18 = gpd.GeoDataFrame(
         df_7_18,
         geometry=gpd.points_from_xy(
@@ -85,6 +87,13 @@ show_busstasjoner_7_18 = st.sidebar.checkbox(
 show_busstasjoner_7_20 = st.sidebar.checkbox(
     "Busstasjoner med høy frekvens 7-20", value=False
 )
+show_skinnestasjoner_7_18 = st.sidebar.checkbox(
+    "Stasjoner med skinnegående kollektivtransport med høy frekvens 7-18", value=False
+)
+show_skinnestasjoner_7_20 = st.sidebar.checkbox(
+    "Stasjoner med skinnegående kollektivtransport med høy frekvens 7-20", value=False
+)
+
 
 # --- Lag ---
 layers = []
@@ -119,11 +128,32 @@ if show_busstasjoner_7_20:
             gdf_7_20.query("route_type=='Bus'"),
             stroked=False,
             get_line_width=10,
-            get_fill_color=[255, 0, 0, 140],
-            get_line_color=[255, 0, 0, 140],
+            get_fill_color=[255, 0, 0, 100],
         )
     )
 
+if show_skinnestasjoner_7_18:
+    layers.append(
+        pdk.Layer(
+            "GeoJsonLayer",
+            gdf_7_18.query("route_type!='Bus'"),
+            stroked=True,
+            get_line_width=10,
+            get_fill_color=[0, 255, 0, 0],
+            get_line_color=[0, 255, 0, 255],
+        )
+    )
+
+if show_skinnestasjoner_7_20:
+    layers.append(
+        pdk.Layer(
+            "GeoJsonLayer",
+            gdf_7_20.query("route_type!='Bus'"),
+            stroked=False,
+            get_line_width=10,
+            get_fill_color=[0, 255, 0, 100],
+        )
+    )
 
 initial_view = pdk.ViewState(longitude=10, latitude=59.9, zoom=8)
 
