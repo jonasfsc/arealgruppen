@@ -21,9 +21,6 @@ def load_data():
     if gdf.crs != crs_plot:
         gdf = gdf.to_crs(crs_plot)
 
-    gdf2 = gpd.read_file("data/areal_fil2.geojson")
-    gdf2 = gdf2.to_crs(epsg=4326)
-
     df_7_20 = pd.read_parquet(
         "stasjoner_med_frekvens_10_15_7_20.parquet",
         columns=[
