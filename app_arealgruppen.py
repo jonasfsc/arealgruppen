@@ -99,6 +99,7 @@ if show_busstasjoner_7_18:
             df_7_18_json,  # Bruker vasket JSON
             stroked=True,
             get_line_width=8,
+            get_radius=400,
             get_fill_color=[255, 0, 0, 0],
             get_line_color=[255, 0, 0, 255],
             pickable=True,
