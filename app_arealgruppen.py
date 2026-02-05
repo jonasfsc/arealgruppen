@@ -76,9 +76,6 @@ show_busstasjoner_7_18 = st.sidebar.checkbox(
 #     "Skinnegående med høy frekvens stasjoner 7-20", value=False
 # )
 
-map_data = json.loads(
-    gdf.to_json()
-)  # Dette gjør GeoDataFrame om til ren tekst-JSON og tilbake til en ordbok
 
 # 3. Definer lagene
 layers = []
