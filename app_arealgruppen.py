@@ -18,7 +18,7 @@ st.subheader(
 st.text("Holdeplass er her definert som *stop_id* i Enturs data.")
 
 st.text(
-    "Det kan ta litt tid å laste inn denne *appen*, det vil stå running oppe til høyre, men det roer seg."
+    "Det kan ta litt tid å laste inn denne *appen*, det vil stå running oppe til høyre, men det roer seg. Mange vil foretrekke å ta kartet i fullskjerm."
 )
 
 current_dir = os.path.dirname(__file__)
@@ -172,7 +172,7 @@ tooltip = {"html": "{name}"}
 initial_view = pdk.ViewState(longitude=10, latitude=60.1, zoom=7)
 
 r = pdk.Deck(
-    layers=layers, initial_view_state=initial_view, map_style=None, tooltip=tooltip
+    layers=layers, initial_view_state=initial_view, map_style="light", tooltip=tooltip
 )
 
 st.pydeck_chart(r)
