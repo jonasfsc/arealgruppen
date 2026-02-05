@@ -57,9 +57,7 @@ def load_data():
 gdf, df_7_18, df_7_20 = load_data()
 
 
-st.dataframe(gdf.head(2))
-
-st.write(print(df_7_18))
+st.json(df_7_18)
 
 # 2. Sidebar for valg av lag
 st.sidebar.header("Velg kartlag")
