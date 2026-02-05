@@ -49,18 +49,18 @@ if gdf.crs != crs_plot:
 st.sidebar.header("Velg kartlag")
 show_sentrum = st.sidebar.checkbox("Sentrumssoner SSB + 1000 m gangvei", value=True)
 
-show_busstasjoner_7_18 = st.sidebar.checkbox(
-    "Busstasjoner med høy frekvens 7-18", value=False
-)
-show_busstasjoner_7_20 = st.sidebar.checkbox(
-    "Busstasjoner med høy frekvens 7-20", value=False
-)
-show_skinnestasjoner_7_18 = st.sidebar.checkbox(
-    "Skinnegående med høy frekvens stasjoner 7-18", value=False
-)
-show_skinnestasjoner_7_20 = st.sidebar.checkbox(
-    "Skinnegående med høy frekvens stasjoner 7-20", value=False
-)
+# show_busstasjoner_7_18 = st.sidebar.checkbox(
+#     "Busstasjoner med høy frekvens 7-18", value=False
+# )
+# show_busstasjoner_7_20 = st.sidebar.checkbox(
+#     "Busstasjoner med høy frekvens 7-20", value=False
+# )
+# show_skinnestasjoner_7_18 = st.sidebar.checkbox(
+#     "Skinnegående med høy frekvens stasjoner 7-18", value=False
+# )
+# show_skinnestasjoner_7_20 = st.sidebar.checkbox(
+#     "Skinnegående med høy frekvens stasjoner 7-20", value=False
+# )
 
 map_data = json.loads(
     gdf.to_json()
@@ -84,77 +84,77 @@ if show_sentrum:
     )
 
 
-if show_busstasjoner_7_20:
-    # Lager en kopi med senterpunkter for demonstrasjon
-    layers.append(
-        # pdk.Layer(
-        #     "ScatterplotLayer",
-        #     df_7_20.query("route_type=='Bus'"),
-        #     stroked=True,
-        #     get_line_width=3,
-        #     get_position=["location_longitude", "location_latitude"],
-        #     get_fill_color=[255, 150, 0, 40],
-        #     get_line_color=[255, 150, 0, 200],
-        #     get_radius="radius",
-        #     pickable=True,
-        # )
-        pdk.Layer(
-            "GeoJsonLayer",
-            data=map_data,  # Bruk den rene JSON-ordboken her
-            get_fill_color="[200, 30, 0, 160]",  # Eksempel på farge
-            pickable=True,
-            auto_highlight=True,
-        )
-    )
+# if show_busstasjoner_7_20:
+#     # Lager en kopi med senterpunkter for demonstrasjon
+#     layers.append(
+#         # pdk.Layer(
+#         #     "ScatterplotLayer",
+#         #     df_7_20.query("route_type=='Bus'"),
+#         #     stroked=True,
+#         #     get_line_width=3,
+#         #     get_position=["location_longitude", "location_latitude"],
+#         #     get_fill_color=[255, 150, 0, 40],
+#         #     get_line_color=[255, 150, 0, 200],
+#         #     get_radius="radius",
+#         #     pickable=True,
+#         # )
+#         pdk.Layer(
+#             "GeoJsonLayer",
+#             data=map_data,  # Bruk den rene JSON-ordboken her
+#             get_fill_color="[200, 30, 0, 160]",  # Eksempel på farge
+#             pickable=True,
+#             auto_highlight=True,
+#         )
+#     )
 
-if show_skinnestasjoner_7_20:
-    # Lager en kopi med senterpunkter for demonstrasjon
-    layers.append(
-        pdk.Layer(
-            "ScatterplotLayer",
-            df_7_20.query("route_type!='Bus'"),
-            stroked=True,
-            get_line_width=3,
-            get_position=["location_longitude", "location_latitude"],
-            get_fill_color=[68, 79, 85, 40],
-            get_line_color=[68, 79, 85, 200],
-            get_radius="radius",
-            pickable=True,
-        )
-    )
+# if show_skinnestasjoner_7_20:
+#     # Lager en kopi med senterpunkter for demonstrasjon
+#     layers.append(
+#         pdk.Layer(
+#             "ScatterplotLayer",
+#             df_7_20.query("route_type!='Bus'"),
+#             stroked=True,
+#             get_line_width=3,
+#             get_position=["location_longitude", "location_latitude"],
+#             get_fill_color=[68, 79, 85, 40],
+#             get_line_color=[68, 79, 85, 200],
+#             get_radius="radius",
+#             pickable=True,
+#         )
+#     )
 
 
-if show_busstasjoner_7_18:
-    # Lager en kopi med senterpunkter for demonstrasjon
-    layers.append(
-        pdk.Layer(
-            "ScatterplotLayer",
-            df_7_18.query("route_type=='Bus'"),
-            stroked=True,
-            get_line_width=8,
-            get_position=["location_longitude", "location_latitude"],
-            get_fill_color=[255, 0, 0, 0],
-            get_line_color=[255, 0, 0, 255],
-            get_radius="radius",
-            pickable=True,
-        )
-    )
+# if show_busstasjoner_7_18:
+#     # Lager en kopi med senterpunkter for demonstrasjon
+#     layers.append(
+#         pdk.Layer(
+#             "ScatterplotLayer",
+#             df_7_18.query("route_type=='Bus'"),
+#             stroked=True,
+#             get_line_width=8,
+#             get_position=["location_longitude", "location_latitude"],
+#             get_fill_color=[255, 0, 0, 0],
+#             get_line_color=[255, 0, 0, 255],
+#             get_radius="radius",
+#             pickable=True,
+#         )
+#     )
 
-if show_skinnestasjoner_7_18:
-    # Lager en kopi med senterpunkter for demonstrasjon
-    layers.append(
-        pdk.Layer(
-            "ScatterplotLayer",
-            df_7_18.query("route_type!='Bus'"),
-            stroked=True,
-            get_line_width=8,
-            get_position=["location_longitude", "location_latitude"],
-            get_fill_color=[0, 255, 0, 0],
-            get_line_color=[0, 255, 0, 255],
-            get_radius="radius",
-            pickable=True,
-        )
-    )
+# if show_skinnestasjoner_7_18:
+#     # Lager en kopi med senterpunkter for demonstrasjon
+#     layers.append(
+#         pdk.Layer(
+#             "ScatterplotLayer",
+#             df_7_18.query("route_type!='Bus'"),
+#             stroked=True,
+#             get_line_width=8,
+#             get_position=["location_longitude", "location_latitude"],
+#             get_fill_color=[0, 255, 0, 0],
+#             get_line_color=[0, 255, 0, 255],
+#             get_radius="radius",
+#             pickable=True,
+#         )
+#     )
 
 
 tooltip = {
