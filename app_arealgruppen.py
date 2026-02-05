@@ -56,8 +56,9 @@ def load_data():
     )
     gdf_7_18["geometry"] = gdf_7_18.to_crs(crs_norge).buffer(500).to_crs(crs_plot)
 
-    df_7_20 = pd.read_parquet("stasjoner_med_frekvens_10_15_7_20.parquet")
-
+    df_7_20 = pd.read_parquet("stasjoner_med_frekvens_10_15_7_20.parquet").drop(
+        columns=["color"]
+    )
     gdf_7_20 = gpd.GeoDataFrame(
         df_7_20,
         geometry=gpd.points_from_xy(
