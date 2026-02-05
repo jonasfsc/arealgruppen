@@ -165,4 +165,4 @@ r = pdk.Deck(
     layers=layers, initial_view_state=initial_view, map_style=None, tooltip=tooltip
 )
 
-st.pydeck_chart(r, height="stretch")
+st.pydeck_chart(r)
