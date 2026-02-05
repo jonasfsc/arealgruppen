@@ -41,10 +41,10 @@ def load_data():
             "name",
             "location_longitude",
             "location_latitude",
+            "radius",
         ],
     )
 
-    df_7_18 = json.loads(df_7_18.query("route_type=='Bus'").to_json())
     # "Vask" dataene for Pydeck med en gang (JSON-trikset)
     # Dette gjør at selve kartvisningen går mye raskere senere
     # clean_data1 = json.loads(gdf1.to_json())
@@ -56,8 +56,6 @@ def load_data():
 # Kall funksjonen i hovedkoden
 gdf, df_7_18, df_7_20 = load_data()
 
-
-st.json(df_7_18)
 
 # 2. Sidebar for valg av lag
 st.sidebar.header("Velg kartlag")
@@ -139,9 +137,10 @@ if show_busstasjoner_7_18:
     # Lager en kopi med senterpunkter for demonstrasjon
     layers.append(
         pdk.Layer(
-            "GeoJsonLayer",
-            df_7_18,
+            "ScatterplotLayer",
+            df_7_18.query("route_type=='Bus'"),
             stroked=True,
+            get_position=["location_longitude", "location_latitude"],
             get_line_width=8,
             get_fill_color=[255, 0, 0, 0],
             get_line_color=[255, 0, 0, 255],
