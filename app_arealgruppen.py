@@ -116,9 +116,6 @@ view_state = pdk.ViewState(latitude=60, longitude=10, zoom=6, pitch=0)
 # BRUK CARTO BASMAP FOR Å UNNGÅ MAPBOX TOKEN FEIL
 st.pydeck_chart(
     pdk.Deck(
-        layers=layers,
-        initial_view_state=view_state,
-        tooltip=tooltip,
-        map_style="https://basemaps.cartocdn.com/gl/light-all-gl-style/style.json",
+        layers=layers, initial_view_state=view_state, tooltip=tooltip, map_style=None
     )
 )
