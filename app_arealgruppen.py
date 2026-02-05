@@ -39,6 +39,7 @@ def load_data():
     if gdf.crs != crs_plot:
         gdf = gdf.to_crs(crs_plot)
 
+    gdf["geometry"] = gdf.to_crs(crs_norge).simplify(10).to_crs(crs_plot)
     # "Vask" med NpEncoder for å unngå ndarray-feilen
     # Vi bruker __geo_interface__ som er en renere vei til JSON for GeoPandas
     # clean_gdf = json.loads(json.dumps(gdf.__geo_interface__, cls=NpEncoder))
