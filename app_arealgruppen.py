@@ -66,6 +66,8 @@ def load_data():
         crs=crs_plot,
     )
 
+    gdf_7_20["geometry"] = gdf_7_20.to_crs(crs_norge).buffer(500).to_crs(crs_plot)
+
     return gdf, gdf_7_18, gdf_7_20
 
 
@@ -78,6 +80,9 @@ st.sidebar.header("Velg kartlag")
 show_sentrum = st.sidebar.checkbox("Sentrumssoner SSB + 1000 m gangvei", value=True)
 show_busstasjoner_7_18 = st.sidebar.checkbox(
     "Busstasjoner med høy frekvens 7-18", value=False
+)
+show_busstasjoner_7_20 = st.sidebar.checkbox(
+    "Busstasjoner med høy frekvens 7-20", value=False
 )
 
 # --- Lag ---
@@ -100,9 +105,21 @@ if show_busstasjoner_7_18:
             "GeoJsonLayer",
             gdf_7_18.query("route_type=='Bus'"),
             stroked=True,
-            get_line_width=8,
+            get_line_width=10,
             get_fill_color=[255, 0, 0, 0],
             get_line_color=[255, 0, 0, 255],
+        )
+    )
+
+if show_busstasjoner_7_20:
+    layers.append(
+        pdk.Layer(
+            "GeoJsonLayer",
+            gdf_7_20.query("route_type=='Bus'"),
+            stroked=False,
+            get_line_width=10,
+            get_fill_color=[255, 0, 0, 140],
+            get_line_color=[255, 0, 0, 140],
         )
     )
 
