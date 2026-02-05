@@ -111,6 +111,7 @@ if show_sentrum:
             opacity=0.5,
             get_fill_color=[20, 100, 200, 150],
             get_line_color=[255, 255, 255],
+            pickable=True,
         )
     )
 
@@ -123,6 +124,7 @@ if show_busstasjoner_7_18:
             get_line_width=10,
             get_fill_color=[255, 150, 0, 0],
             get_line_color=[255, 150, 0, 255],
+            pickable=True,
         )
     )
 
@@ -134,6 +136,7 @@ if show_busstasjoner_7_20:
             stroked=False,
             get_line_width=10,
             get_fill_color=[255, 150, 0, 40],
+            pickable=True,
         )
     )
 
@@ -146,6 +149,7 @@ if show_skinnestasjoner_7_18:
             get_line_width=10,
             get_fill_color=[68, 79, 85, 0],
             get_line_color=[68, 79, 85, 255],
+            pickable=True,
         )
     )
 
@@ -157,6 +161,7 @@ if show_skinnestasjoner_7_20:
             stroked=False,
             get_line_width=10,
             get_fill_color=[68, 79, 85, 40],
+            pickable=True,
         )
     )
 
