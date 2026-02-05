@@ -16,7 +16,7 @@ st.subheader(
 
 @st.cache_data
 def load_data():
-    gdf = gpd.read_file("buffrede_sentrumssoner.gpkg")
+    gdf = gpd.read_file("buffrede_sentrumssoner.gpkg", engine="pyogrio")
     gdf["name"] = gdf["område"] + " - " + gdf["kommunenavn"]
     if gdf.crs != crs_plot:
         gdf = gdf.to_crs(crs_plot)
