@@ -155,8 +155,14 @@ if show_skinnestasjoner_7_20:
         )
     )
 
+
+tooltip = {"html": "{name}"}
+
+
 initial_view = pdk.ViewState(longitude=10, latitude=60.1, zoom=7)
 
-r = pdk.Deck(layers=layers, initial_view_state=initial_view, map_style=None)
+r = pdk.Deck(
+    layers=layers, initial_view_state=initial_view, map_style=None, tooltip=tooltip
+)
 
-st.pydeck_chart(r)
+st.pydeck_chart(r, height="stretch")
