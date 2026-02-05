@@ -15,6 +15,11 @@ st.title("Stasjoner med hyppige avganger")
 st.subheader(
     "Avganger fra samme holdeplass minst hvert 10 / 15 min i intervallet for buss / skinnegående"
 )
+st.text("Holdeplass er her definert som *stop_id* i Enturs data.")
+
+st.text(
+    "Det kan ta litt tid å laste inn denne *appen*, det vil stå running oppe til høyre, men det roer seg."
+)
 
 current_dir = os.path.dirname(__file__)
 file_path = os.path.join(current_dir, "buffrede_sentrumssoner.gpkg")
