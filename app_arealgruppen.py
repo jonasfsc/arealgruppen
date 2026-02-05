@@ -57,6 +57,10 @@ def load_data():
 gdf, df_7_18, df_7_20 = load_data()
 
 
+st.dataframe(gdf.head(2))
+
+st.write(print(df_7_18))
+
 # 2. Sidebar for valg av lag
 st.sidebar.header("Velg kartlag")
 show_sentrum = st.sidebar.checkbox("Sentrumssoner SSB + 1000 m gangvei", value=True)
