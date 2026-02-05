@@ -116,8 +116,8 @@ if show_busstasjoner_7_18:
             gdf_7_18.query("route_type=='Bus'"),
             stroked=True,
             get_line_width=10,
-            get_fill_color=[255, 0, 0, 0],
-            get_line_color=[255, 0, 0, 255],
+            get_fill_color=[255, 150, 0, 0],
+            get_line_color=[255, 150, 0, 255],
         )
     )
 
@@ -128,7 +128,7 @@ if show_busstasjoner_7_20:
             gdf_7_20.query("route_type=='Bus'"),
             stroked=False,
             get_line_width=10,
-            get_fill_color=[255, 0, 0, 100],
+            get_fill_color=[255, 150, 0, 40],
         )
     )
 
@@ -139,8 +139,8 @@ if show_skinnestasjoner_7_18:
             gdf_7_18.query("route_type!='Bus'"),
             stroked=True,
             get_line_width=10,
-            get_fill_color=[0, 255, 0, 0],
-            get_line_color=[0, 255, 0, 255],
+            get_fill_color=[68, 79, 85, 0],
+            get_line_color=[68, 79, 85, 255],
         )
     )
 
@@ -151,11 +151,11 @@ if show_skinnestasjoner_7_20:
             gdf_7_20.query("route_type!='Bus'"),
             stroked=False,
             get_line_width=10,
-            get_fill_color=[0, 255, 0, 100],
+            get_fill_color=[68, 79, 85, 40],
         )
     )
 
-initial_view = pdk.ViewState(longitude=10, latitude=59.9, zoom=8)
+initial_view = pdk.ViewState(longitude=10, latitude=60.1, zoom=7)
 
 r = pdk.Deck(layers=layers, initial_view_state=initial_view, map_style=None)
 
