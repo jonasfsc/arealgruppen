@@ -18,7 +18,7 @@ st.subheader(
 st.text("Holdeplass er her definert som quays i Enturs data.")
 
 st.text(
-    "Det kan ta litt tid å laste inn denne *appen*, det vil stå running oppe til høyre, men det roer seg. Mange vil foretrekke å ta kartet i fullskjerm."
+    "Det kan ta litt tid å laste inn denne *appen*, det vil stå running oppe til høyre, men det roer seg. Mange vil foretrekke å ta kartet i fullskjerm.\nBussveien i Stavanger behandles som skinnegående, men vises i kartlagene for buss."
 )
 
 current_dir = os.path.dirname(__file__)
@@ -59,7 +59,9 @@ def load_data():
         ),
         crs=crs_plot,
     )
-    gdf_7_18["geometry"] = gdf_7_18.to_crs(crs_norge).buffer(500).to_crs(crs_plot)
+    gdf_7_18["geometry"] = (
+        gdf_7_18.to_crs(crs_norge).buffer(gdf_7_18["radius"]).to_crs(crs_plot)
+    )
 
     df_7_20 = pd.read_parquet("stasjoner_med_frekvens_10_15_7_20.parquet")
 
@@ -71,7 +73,9 @@ def load_data():
         crs=crs_plot,
     )
 
-    gdf_7_20["geometry"] = gdf_7_20.to_crs(crs_norge).buffer(500).to_crs(crs_plot)
+    gdf_7_20["geometry"] = (
+        gdf_7_20.to_crs(crs_norge).buffer(gdf_7_20["radius"]).to_crs(crs_plot)
+    )
 
     return gdf, gdf_7_18, gdf_7_20
 
