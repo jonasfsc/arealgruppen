@@ -2,9 +2,7 @@ import streamlit as st
 import pandas as pd
 import pydeck as pdk
 import geopandas as gpd
-import json
 import os
-import numpy as np
 
 
 crs_plot = "EPSG:4326"
@@ -25,17 +23,6 @@ current_dir = os.path.dirname(__file__)
 file_path = os.path.join(current_dir, "buffrede_sentrumssoner.gpkg")
 
 
-class NpEncoder(json.JSONEncoder):
-    def default(self, obj):
-        if isinstance(obj, np.integer):
-            return int(obj)
-        if isinstance(obj, np.floating):
-            return float(obj)
-        if isinstance(obj, np.ndarray):
-            return obj.tolist()
-        return super(NpEncoder, self).default(obj)
-
-
 @st.cache_data
 def load_data():
     # 1. Last Sentrumssoner
@@ -45,9 +32,6 @@ def load_data():
         gdf = gdf.to_crs(crs_plot)
 
     gdf["geometry"] = gdf.to_crs(crs_norge).simplify(10).to_crs(crs_plot)
-    # "Vask" med NpEncoder for å unngå ndarray-feilen
-    # Vi bruker __geo_interface__ som er en renere vei til JSON for GeoPandas
-    # clean_gdf = json.loads(json.dumps(gdf.__geo_interface__, cls=NpEncoder))
 
     # 2. Last Parquet-filer
     df_7_18 = pd.read_parquet("stasjoner_med_frekvens_10_15_7_18.parquet")
@@ -80,7 +64,7 @@ def load_data():
     return gdf, gdf_7_18, gdf_7_20
 
 
-# Hent ferdigvaskede data
+# Hent data
 gdf, gdf_7_18, gdf_7_20 = load_data()
 
 
