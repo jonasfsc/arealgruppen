@@ -11,11 +11,11 @@ crs_plot = "EPSG:4326"
 crs_norge = "EPSG:25833"
 
 st.set_page_config(layout="wide")
-st.title("Stasjoner med hyppige avganger")
+st.title("Stoppesteder med hyppige avganger")
 st.subheader(
-    "Avganger fra samme holdeplass minst hvert 10 / 15 min i intervallet for buss / skinnegående"
+    "Stoppesteder som har holdeplasser med avgang minst hvert 10 / 15 min i intervallet for buss / skinnegående"
 )
-st.text("Holdeplass er her definert som *stop_id* i Enturs data.")
+st.text("Holdeplass er her definert som quays i Enturs data.")
 
 st.text(
     "Det kan ta litt tid å laste inn denne *appen*, det vil stå running oppe til høyre, men det roer seg. Mange vil foretrekke å ta kartet i fullskjerm."
@@ -50,9 +50,7 @@ def load_data():
     # clean_gdf = json.loads(json.dumps(gdf.__geo_interface__, cls=NpEncoder))
 
     # 2. Last Parquet-filer
-    df_7_18 = pd.read_parquet("stasjoner_med_frekvens_10_15_7_18.parquet").drop(
-        columns=["color"]
-    )
+    df_7_18 = pd.read_parquet("stasjoner_med_frekvens_10_15_7_18.parquet")
 
     gdf_7_18 = gpd.GeoDataFrame(
         df_7_18,
@@ -63,9 +61,8 @@ def load_data():
     )
     gdf_7_18["geometry"] = gdf_7_18.to_crs(crs_norge).buffer(500).to_crs(crs_plot)
 
-    df_7_20 = pd.read_parquet("stasjoner_med_frekvens_10_15_7_20.parquet").drop(
-        columns=["color"]
-    )
+    df_7_20 = pd.read_parquet("stasjoner_med_frekvens_10_15_7_20.parquet")
+
     gdf_7_20 = gpd.GeoDataFrame(
         df_7_20,
         geometry=gpd.points_from_xy(
@@ -87,16 +84,16 @@ gdf, gdf_7_18, gdf_7_20 = load_data()
 st.sidebar.header("Velg kartlag")
 show_sentrum = st.sidebar.checkbox("Sentrumssoner SSB + 1000 m gangvei", value=True)
 show_busstasjoner_7_18 = st.sidebar.checkbox(
-    "Busstasjoner med høy frekvens 7-18", value=False
+    "Stoppesteder BUSS med høy frekvens 7-18", value=False
 )
 show_busstasjoner_7_20 = st.sidebar.checkbox(
-    "Busstasjoner med høy frekvens 7-20", value=False
+    "Stoppesteder BUSS med høy frekvens 7-20", value=False
 )
 show_skinnestasjoner_7_18 = st.sidebar.checkbox(
-    "Stasjoner med skinnegående kollektivtransport med høy frekvens 7-18", value=False
+    "Stoppesteder SKINNEGÅENDE med høy frekvens 7-18", value=False
 )
 show_skinnestasjoner_7_20 = st.sidebar.checkbox(
-    "Stasjoner med skinnegående kollektivtransport med høy frekvens 7-20", value=False
+    "Stoppesteder SKINNEGÅENDE med høy frekvens 7-20", value=False
 )
 
 
